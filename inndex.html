@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAMOSS - Inscription Formation</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body class="bg-gray-100">
+
+<!-- HEADER -->
+<div class="bg-blue-700 text-white p-6 text-center">
+  <h1 class="text-3xl font-bold">SAMOSS FORMATION</h1>
+  <p>Plateforme d'inscription officielle</p>
+</div>
+
+<!-- INFO PAIEMENT -->
+<div class="max-w-4xl mx-auto mt-6 bg-white shadow-lg rounded-xl p-5 border-l-4 border-blue-600">
+
+  <h2 class="text-xl font-bold text-blue-700">💳 Informations de paiement</h2>
+
+  <p class="mt-2 text-gray-700">
+    Faites vos transferts en un clic, où que vous soyez via notre plateforme sécurisée :
+  </p>
+
+  <div class="mt-3 bg-gray-100 p-3 rounded">
+    <p class="font-semibold">Méthodes acceptées :</p>
+    <ul class="list-disc ml-5 text-gray-700">
+      <li>Wave</li>
+      <li>Orange Money</li>
+      <li>Carte bancaire</li>
+    </ul>
+  </div>
+
+  <div class="mt-4 bg-yellow-100 p-3 rounded border border-yellow-400">
+    <p class="font-bold text-red-600">
+      ⚠️ IMPORTANT : Tout paiement doit être envoyé au numéro suivant :
+    </p>
+    <p class="text-2xl font-bold text-black mt-2">
+      📞 77 997 21 70
+    </p>
+  </div>
+
+  <a href="https://mytouchpoint.net/"
+     target="_blank"
+     class="inline-block mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-800">
+     🌐 Accéder à la plateforme de paiement
+  </a>
+
+</div>
+
+<!-- FORM -->
+<div class="max-w-4xl mx-auto mt-6 bg-white shadow-lg rounded-xl p-6">
+
+  <h2 class="text-2xl font-bold text-center mb-4">Inscription Formation</h2>
+
+  <form id="formInscription" class="space-y-4">
+
+    <input type="text" id="nom" placeholder="Nom"
+      class="w-full p-3 border rounded" required>
+
+    <input type="text" id="prenom" placeholder="Prénom"
+      class="w-full p-3 border rounded" required>
+
+    <input type="tel" id="telephone" placeholder="Téléphone"
+      class="w-full p-3 border rounded" required>
+
+    <input type="text" id="adresse" placeholder="Adresse"
+      class="w-full p-3 border rounded" required>
+
+    <input type="email" id="email" placeholder="Email"
+      class="w-full p-3 border rounded">
+
+    <select id="formation" class="w-full p-3 border rounded" required>
+      <option value="">-- Choisir une formation --</option>
+      <option>CCNA CISCO</option>
+      <option>Administration Réseaux</option>
+      <option>Administration Systèmes</option>
+      <option>Télécommunications</option>
+      <option>Développement Web</option>
+    </select>
+
+    <button type="button"
+      onclick="showRecap()"
+      class="w-full bg-blue-600 text-white p-3 rounded hover:bg-blue-700">
+      Voir le récapitulatif
+    </button>
+
+  </form>
+</div>
+
+<!-- MODAL -->
+<div id="recapModal"
+  class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center">
+
+  <div class="bg-white p-6 rounded-xl w-full max-w-lg">
+
+    <h2 class="text-xl font-bold mb-4">📋 Récapitulatif d'inscription</h2>
+
+    <div id="recapContent" class="space-y-2 text-gray-700"></div>
+
+    <div class="mt-4 bg-red-100 p-3 rounded">
+      <p class="font-bold text-red-600">Montant à payer : 15 000 FCFA</p>
+    </div>
+
+    <div class="mt-5 space-y-3">
+
+      <button onclick="sendWhatsApp()"
+        class="w-full bg-green-500 text-white p-2 rounded">
+        📲 Envoyer sur WhatsApp
+      </button>
+
+      <button onclick="copyInfo()"
+        class="w-full bg-gray-700 text-white p-2 rounded">
+        📋 Copier les informations
+      </button>
+
+      <button onclick="goPayment()"
+        class="w-full bg-blue-600 text-white p-2 rounded">
+        💳 Procéder au paiement
+      </button>
+
+      <button onclick="closeModal()"
+        class="w-full bg-gray-400 text-white p-2 rounded">
+        Fermer
+      </button>
+
+    </div>
+
+  </div>
+</div>
+
+<script>
+
+let data = {};
+
+function showRecap() {
+
+  data = {
+    nom: document.getElementById("nom").value,
+    prenom: document.getElementById("prenom").value,
+    telephone: document.getElementById("telephone").value,
+    adresse: document.getElementById("adresse").value,
+    email: document.getElementById("email").value,
+    formation: document.getElementById("formation").value
+  };
+
+  if (!data.nom || !data.prenom || !data.telephone || !data.formation) {
+    alert("Veuillez remplir tous les champs obligatoires");
+    return;
+  }
+
+  document.getElementById("recapContent").innerHTML = `
+    <p><b>Nom:</b> ${data.nom}</p>
+    <p><b>Prénom:</b> ${data.prenom}</p>
+    <p><b>Téléphone:</b> ${data.telephone}</p>
+    <p><b>Adresse:</b> ${data.adresse}</p>
+    <p><b>Email:</b> ${data.email}</p>
+    <p><b>Formation:</b> ${data.formation}</p>
+  `;
+
+  document.getElementById("recapModal").classList.remove("hidden");
+}
+
+function closeModal(){
+  document.getElementById("recapModal").classList.add("hidden");
+}
+
+function sendWhatsApp(){
+
+  let message =
+`📌 INSCRIPTION SAMOSS
+
+Nom: ${data.nom}
+Prénom: ${data.prenom}
+Téléphone: ${data.telephone}
+Adresse: ${data.adresse}
+Email: ${data.email}
+Formation: ${data.formation}
+
+💰 Montant: 15 000 FCFA
+📞 Paiement: 77 997 21 70`;
+
+  let phone = "221779972170";
+
+  let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+
+  window.open(url, "_blank");
+}
+
+function goPayment(){
+  window.open("https://mytouchpoint.net/", "_blank");
+}
+
+function copyInfo(){
+
+  let text =
+`SEMOS INSCRIPTION
+Nom: ${data.nom}
+Prénom: ${data.prenom}
+Téléphone: ${data.telephone}
+Formation: ${data.formation}
+Paiement: 77 997 21 70`;
+
+  navigator.clipboard.writeText(text);
+
+  alert("Informations copiées !");
+}
+
+</script>
+
+</body>
+</html>
